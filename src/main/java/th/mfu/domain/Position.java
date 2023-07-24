@@ -17,8 +17,8 @@ public class Position {
 
     private String name;
 
-    @OneToMany(mappedBy = "position", cascade = CascadeType.ALL)
-    private List<Employee> employee;
+    // @OneToMany(mappedBy = "position", cascade = CascadeType.ALL)
+    // private List<Employee> employee;
 
     public long getId() {
         return id;
@@ -36,13 +36,13 @@ public class Position {
         this.name = name;
     }
 
-    public List<Employee> getEmployee() {
-        return employee;
-    }
+    // public List<Employee> getEmployee() {
+    //     return employee;
+    // }
 
-    public void setEmployee(List<Employee> employee) {
-        this.employee = employee;
-    }
+    // public void setEmployee(List<Employee> employee) {
+    //     this.employee = employee;
+    // }
 
     
 

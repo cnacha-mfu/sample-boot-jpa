@@ -15,8 +15,8 @@ public class Role {
     private long id;
     private String name;
 
-    @ManyToMany(mappedBy = "roles")
-    private List<Employee> employees;
+    // @ManyToMany(mappedBy = "roles")
+    // private List<Employee> employees;
 
     public long getId() {
         return id;
@@ -34,12 +34,12 @@ public class Role {
         this.name = name;
     }
 
-    public List<Employee> getEmployees() {
-        return employees;
-    }
+    // public List<Employee> getEmployees() {
+    //     return employees;
+    // }
 
-    public void setEmployees(List<Employee> employees) {
-        this.employees = employees;
-    }
+    // public void setEmployees(List<Employee> employees) {
+    //     this.employees = employees;
+    // }
 
 }

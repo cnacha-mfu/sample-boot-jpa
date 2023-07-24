@@ -24,7 +24,7 @@ public class Employee {
 
   private String email;
 
-  @OneToOne( cascade = CascadeType.ALL)
+  @OneToOne( cascade = CascadeType.PERSIST)
   @JoinColumn(name = "acc_id", referencedColumnName = "id")
   private Account account;
 
@@ -32,7 +32,7 @@ public class Employee {
   @JoinColumn(name = "position_id", referencedColumnName = "id")
   private Position position;
 
-  @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+  @ManyToMany(cascade = CascadeType.PERSIST)
   @JoinTable(name = "employee_role", 
            joinColumns = @JoinColumn(name = "emp_id", referencedColumnName = "id"), 
            inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))

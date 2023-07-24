@@ -1,0 +1,15 @@
+INSERT INTO position (id, name) VALUES (1, 'Software Engineer');
+INSERT INTO position (id, name) VALUES (2, 'Data Analyst');
+INSERT INTO position (id, name) VALUES (3, 'Product Manager');
+INSERT INTO position (id, name) VALUES (4, 'UI/UX Designer');
+INSERT INTO position (id, name) VALUES (5, 'Sales Executive');
+INSERT INTO employee (id, name, email, position_id) VALUES (99901, 'John Doe', 'johndoe@example.com',1);
+INSERT INTO employee (id, name, email, position_id) VALUES (99902, 'Jane Smith', 'janesmith@example.com',2);
+INSERT INTO employee (id, name, email, position_id) VALUES (99903, 'Mike Johnson', 'mikejohnson@example.com',3);
+INSERT INTO employee (id, name, email, position_id) VALUES (99904, 'Emily Brown', 'emilybrown@example.com',4);
+INSERT INTO employee (id, name, email, position_id) VALUES (99905, 'David Wilson', 'davidwilson@example.com',5);
+INSERT INTO employee (id, name, email, position_id) VALUES (99906, 'Sarah Taylor', 'sarahtaylor@example.com',1);
+INSERT INTO employee (id, name, email, position_id) VALUES (99907, 'Robert Anderson', 'robertanderson@example.com',2);
+INSERT INTO employee (id, name, email, position_id) VALUES (99908, 'Laura Davis', 'lauradavis@example.com',3);
+INSERT INTO employee (id, name, email, position_id) VALUES (99909, 'Michael Lee', 'michaellee@example.com',4);
+INSERT INTO employee (id, name, email, position_id) VALUES (99910, 'Jennifer Clark', 'jenniferclark@example.com',5);

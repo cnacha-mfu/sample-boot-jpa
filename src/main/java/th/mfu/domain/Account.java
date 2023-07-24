@@ -1,6 +1,7 @@
 package th.mfu.domain;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -17,8 +18,8 @@ public class Account {
     private String username;
     private String password;
 
-    @OneToOne(mappedBy = "account")
-    private Employee employee;
+    // @OneToOne(mappedBy = "account", fetch = FetchType.LAZY)
+    // private Employee employee;
 
 
     public int getId() {
@@ -39,12 +40,12 @@ public class Account {
     public void setPassword(String password) {
         this.password = password;
     }
-    public Employee getEmployee() {
-        return employee;
-    }
-    public void setEmployee(Employee employee) {
-        this.employee = employee;
-    }
+    // public Employee getEmployee() {
+    //     return employee;
+    // }
+    // public void setEmployee(Employee employee) {
+    //     this.employee = employee;
+    // }
 
     
 
