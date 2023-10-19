@@ -4,7 +4,6 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -12,6 +11,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 @Entity // This tells Hibernate to make a table out of this class
@@ -29,8 +29,11 @@ public class Employee {
   private Account account;
 
   @ManyToOne( cascade = CascadeType.MERGE)
-  @JoinColumn(name = "position_id", referencedColumnName = "id")
   private Position position;
+
+  @OneToMany( cascade = CascadeType.ALL)
+  private List<Address> addresses;
+
 
   @ManyToMany(cascade = CascadeType.PERSIST)
   @JoinTable(name = "employee_role", 
@@ -88,5 +91,14 @@ public class Employee {
     this.roles = roles;
   }
 
+  public List<Address> getAddresses() {
+    return addresses;
+  }
+
+  public void setAddresses(List<Address> addresses) {
+    this.addresses = addresses;
+  }
+
+  
   
 }
