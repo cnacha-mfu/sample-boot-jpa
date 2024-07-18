@@ -1,11 +1,14 @@
 package th.mfu;
 
 import java.util.Collection;
+import java.util.Optional;
 
+import org.apache.catalina.connector.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,6 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import th.mfu.domain.Employee;
 import th.mfu.domain.Position;
+import th.mfu.domain.dto.EmployeeDTO;
+import th.mfu.domain.dto.EmployeeMapper;
 
 @RestController
 @RequestMapping("/api")
@@ -53,6 +58,21 @@ public class EmployeeController {
 
         positionRepository.save(pos);
         return ResponseEntity.ok("position added successfully");
+    }
+
+    @Autowired
+    EmployeeMapper empDTOMapper;
+
+    @PatchMapping("/employees/{id}")
+    public ResponseEntity<String> updateEmployee(@RequestBody EmployeeDTO emp, @PathVariable int id){
+      //  EmployeeMapper mapper = 
+      Optional<Employee> foundEmp = employeeRepository.findById(id);
+      if(!foundEmp.isPresent())
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+      Employee empToUpdate = foundEmp.get();
+      empDTOMapper.updateEmployeeFromDto(emp, empToUpdate);
+      employeeRepository.save(empToUpdate);
+      return ResponseEntity.ok("employee is updated");
     }
     
 }
