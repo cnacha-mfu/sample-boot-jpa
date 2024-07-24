@@ -67,12 +67,16 @@ public class EmployeeController {
     public ResponseEntity<String> updateEmployee(@RequestBody EmployeeDTO emp, @PathVariable int id){
       //  EmployeeMapper mapper = 
       Optional<Employee> foundEmp = employeeRepository.findById(id);
-      if(!foundEmp.isPresent())
+      if(!foundEmp.isPresent())https://desktop.postman.com/?desktopVersion=11.4.0&userId=2189289&teamId=0&region=us
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+      // get employee
       Employee empToUpdate = foundEmp.get();
+      // update some fields from DTO
       empDTOMapper.updateEmployeeFromDto(emp, empToUpdate);
       employeeRepository.save(empToUpdate);
+     
       return ResponseEntity.ok("employee is updated");
+
     }
     
 }
