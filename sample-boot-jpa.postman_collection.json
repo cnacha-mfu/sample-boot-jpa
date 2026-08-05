@@ -1,0 +1,164 @@
+{
+	"info": {
+		"name": "sample-boot-jpa",
+		"description": "In-class demo requests for the Spring Data JPA demo (covers what lab-web-jpa needs).\n\nStart the app first: mvn spring-boot:run\n\nRun top to bottom — or use 'Run collection'; every request carries tests that check the expected status code. Restart the app first for a clean database (data.sql loads 5 employees, ids 99901-99905).",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:8080",
+			"type": "string"
+		}
+	],
+	"item": [
+		{
+			"name": "Register an employee (201 CREATED)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"status is 201 CREATED\", () => pm.response.to.have.status(201));"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"name\": \"Alice\",\n  \"email\": \"alice@example.com\"\n}"
+				},
+				"url": "{{baseUrl}}/employees"
+			}
+		},
+		{
+			"name": "Register duplicate name (409 CONFLICT)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"status is 409 CONFLICT\", () => pm.response.to.have.status(409));"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"name\": \"Alice\",\n  \"email\": \"alice2@example.com\"\n}"
+				},
+				"url": "{{baseUrl}}/employees"
+			}
+		},
+		{
+			"name": "List all employees (200 OK)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"status is 200 OK\", () => pm.response.to.have.status(200));",
+							"pm.test(\"data.sql rows + Alice = 6\", () => pm.expect(pm.response.json().length).to.eql(6));"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"url": "{{baseUrl}}/employees"
+			}
+		},
+		{
+			"name": "Get one employee from data.sql (200 OK)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"status is 200 OK\", () => pm.response.to.have.status(200));",
+							"pm.test(\"returns John Doe\", () => pm.expect(pm.response.json().name).to.eql(\"John Doe\"));"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"url": "{{baseUrl}}/employees/99901"
+			}
+		},
+		{
+			"name": "Get unknown employee (404 NOT FOUND)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"status is 404 NOT FOUND\", () => pm.response.to.have.status(404));"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"url": "{{baseUrl}}/employees/1"
+			}
+		},
+		{
+			"name": "Delete an employee (200 OK)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"status is 200 OK\", () => pm.response.to.have.status(200));"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"url": "{{baseUrl}}/employees/99905"
+			}
+		},
+		{
+			"name": "Delete same employee again (404 NOT FOUND)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"status is 404 NOT FOUND\", () => pm.response.to.have.status(404));"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"url": "{{baseUrl}}/employees/99905"
+			}
+		}
+	]
+}

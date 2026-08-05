@@ -1,44 +1,63 @@
 package th.mfu;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.util.Iterator;
+import java.util.List;
+import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 
 import th.mfu.domain.Employee;
 
+// This test is already complete — read it together, then make it pass.
+// @DataJpaTest starts ONLY the JPA slice on a fresh in-memory H2 database
+// and rolls back after each test. The lab's UserRepositoryTest grades you
+// exactly this way.
 @DataJpaTest
 public class EmployeeRepositoryTest {
-    @Autowired
-    private TestEntityManager em;
 
     @Autowired
-    private EmployeeRepository employeeRepository;
+    private EmployeeRepository repo;
 
     @Test
-    public void testQuery(){
-        employeeRepository.deleteAll();
-        Employee employee1 = new Employee();
-        employee1.setName("test1@test.com");
-        employee1.setEmail("test1@test.com");
-        employeeRepository.save(employee1);
+    public void testSaveAndFindById() {
+        Employee emp = new Employee();
+        emp.setName("Alice");
+        emp.setEmail("alice@example.com");
+        Employee saved = repo.save(emp);
 
-        Employee employee2 = new Employee();
-        employee2.setName("test2@test.com");
-        employee2.setEmail("test2@test.com");
-        employeeRepository.save(employee2);
+        Optional<Employee> found = repo.findById(saved.getId());
 
-        // find sum of all employees
-        Iterator<Employee> emps = employeeRepository.findAll().iterator();
-        int sum = 0;
-        while(emps.hasNext()){
-            sum++;
-            emps.next();
-        }
-        assertEquals(2, sum);
+        assertTrue(found.isPresent());
+        assertEquals("Alice", found.get().getName());
+    }
+
+    @Test
+    public void testFindByName() {
+        Employee emp = new Employee();
+        emp.setName("Bob");
+        emp.setEmail("bob@example.com");
+        repo.save(emp);
+
+        List<Employee> found = repo.findByName("Bob");
+
+        assertEquals(1, found.size());
+        assertEquals("bob@example.com", found.get(0).getEmail());
+    }
+
+    @Test
+    public void testDelete() {
+        Employee emp = new Employee();
+        emp.setName("Carol");
+        emp.setEmail("carol@example.com");
+        Employee saved = repo.save(emp);
+
+        repo.delete(saved);
+
+        assertFalse(repo.findById(saved.getId()).isPresent());
     }
 }

@@ -1,47 +1,19 @@
 package th.mfu.domain;
 
-import java.util.List;
-
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 
-@Entity // This tells Hibernate to make a table out of this class
+// TODO: add @Entity — this tells Hibernate to make a table out of this class
 public class Employee {
-  @Id
-  @GeneratedValue(strategy=GenerationType.AUTO)
+
+  // TODO: add @Id and @GeneratedValue(strategy = GenerationType.AUTO) on id
   private Integer id;
 
   private String name;
 
   private String email;
-
-  @OneToOne( cascade = CascadeType.PERSIST)
-  @JoinColumn(name = "acc_id", referencedColumnName = "id")
-  private Account account;
-
-  @ManyToOne( cascade = CascadeType.MERGE)
-  private Position position;
-
-  @OneToMany( cascade = CascadeType.ALL)
-  private List<Address> addresses;
-
-
-  @ManyToMany(cascade = CascadeType.PERSIST)
-  @JoinTable(name = "employee_role", 
-           joinColumns = @JoinColumn(name = "emp_id", referencedColumnName = "id"), 
-           inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
-  private List<Role> roles;
-
-
 
   public Integer getId() {
     return id;
@@ -67,38 +39,4 @@ public class Employee {
     this.email = email;
   }
 
-  public Account getAccount() {
-    return account;
-  }
-
-  public void setAccount(Account account) {
-    this.account = account;
-  }
-
-  public Position getPosition() {
-    return position;
-  }
-
-  public void setPosition(Position position) {
-    this.position = position;
-  }
-
-  public List<Role> getRoles() {
-    return roles;
-  }
-
-  public void setRoles(List<Role> roles) {
-    this.roles = roles;
-  }
-
-  public List<Address> getAddresses() {
-    return addresses;
-  }
-
-  public void setAddresses(List<Address> addresses) {
-    this.addresses = addresses;
-  }
-
-  
-  
 }

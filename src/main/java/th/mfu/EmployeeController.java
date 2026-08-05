@@ -1,58 +1,51 @@
 package th.mfu;
 
-import java.util.Collection;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import th.mfu.domain.Employee;
-import th.mfu.domain.Position;
 
 @RestController
-@RequestMapping("/api")
 public class EmployeeController {
 
+    // Spring creates the repository implementation and injects it here
     @Autowired
-    private EmployeeRepository employeeRepository;
+    private EmployeeRepository repo;
 
-    @Autowired
-    private PositionRepository positionRepository;
-
-    @PostMapping("/employees/register")
-    public ResponseEntity<String> registerUser(@RequestBody Employee emp) {
-
-        if (employeeRepository.findByName(emp.getName()).size() > 0) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("Username already exists");
-        } 
-
-        employeeRepository.save(emp);
-        return ResponseEntity.ok("User registered successfully");
+    @PostMapping("/employees")
+    public ResponseEntity<String> registerEmployee(@RequestBody Employee employee) {
+        // TODO: if repo.findByName(...) is not empty -> 409 CONFLICT
+        // TODO: otherwise repo.save(employee) -> 201 CREATED
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
     }
 
     @GetMapping("/employees")
-    public Collection<Employee> list() {
-        
-        return employeeRepository.findAll();
+    public ResponseEntity<List<Employee>> listEmployees() {
+        // TODO: return repo.findAll() with 200 OK
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
     }
 
-    @GetMapping("/employees/{name}")
-    public Employee getEmployee(@PathVariable String name) {
-
-        return employeeRepository.findByName(name).get(0);
+    @GetMapping("/employees/{id}")
+    public ResponseEntity<Employee> getEmployee(@PathVariable Integer id) {
+        // TODO: if repo.findById(id) is empty -> 404 NOT FOUND
+        // TODO: otherwise return the employee with 200 OK  (hint: Optional.get())
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
     }
 
-    @PostMapping("/positions/new")
-    public ResponseEntity<String> newPosition(@RequestBody Position pos) {
-
-        positionRepository.save(pos);
-        return ResponseEntity.ok("position added successfully");
+    @DeleteMapping("/employees/{id}")
+    public ResponseEntity<String> deleteEmployee(@PathVariable Integer id) {
+        // TODO: if the id does not exist -> 404 NOT FOUND
+        // TODO: otherwise repo.deleteById(id) -> 200 OK
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
     }
-    
+
 }
