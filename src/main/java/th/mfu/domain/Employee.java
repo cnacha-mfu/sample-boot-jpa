@@ -5,10 +5,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-// TODO: add @Entity — this tells Hibernate to make a table out of this class
+@Entity // this tells Hibernate to make a table out of this class
 public class Employee {
 
-  // TODO: add @Id and @GeneratedValue(strategy = GenerationType.AUTO) on id
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
   private Integer id;
 
   private String name;

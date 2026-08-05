@@ -23,29 +23,33 @@ public class EmployeeController {
 
     @PostMapping("/employees")
     public ResponseEntity<String> registerEmployee(@RequestBody Employee employee) {
-        // TODO: if repo.findByName(...) is not empty -> 409 CONFLICT
-        // TODO: otherwise repo.save(employee) -> 201 CREATED
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+        if (!repo.findByName(employee.getName()).isEmpty()) {
+            return new ResponseEntity<>("Employee name already exists", HttpStatus.CONFLICT);
+        }
+        repo.save(employee);
+        return new ResponseEntity<>("Employee registered successfully", HttpStatus.CREATED);
     }
 
     @GetMapping("/employees")
     public ResponseEntity<List<Employee>> listEmployees() {
-        // TODO: return repo.findAll() with 200 OK
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+        return new ResponseEntity<>(repo.findAll(), HttpStatus.OK);
     }
 
     @GetMapping("/employees/{id}")
     public ResponseEntity<Employee> getEmployee(@PathVariable Integer id) {
-        // TODO: if repo.findById(id) is empty -> 404 NOT FOUND
-        // TODO: otherwise return the employee with 200 OK  (hint: Optional.get())
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+        if (!repo.findById(id).isPresent()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(repo.findById(id).get(), HttpStatus.OK);
     }
 
     @DeleteMapping("/employees/{id}")
     public ResponseEntity<String> deleteEmployee(@PathVariable Integer id) {
-        // TODO: if the id does not exist -> 404 NOT FOUND
-        // TODO: otherwise repo.deleteById(id) -> 200 OK
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+        if (!repo.findById(id).isPresent()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        repo.deleteById(id);
+        return new ResponseEntity<>("Employee deleted", HttpStatus.OK);
     }
 
 }
